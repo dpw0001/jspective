@@ -1,0 +1,59 @@
+<div class="transport_container">
+	<div class="page_viewer_title">
+		<h2>Download Source Code</h2>
+	</div>
+	<div class="page_viewer_content">
+		
+		<h3>Downloads</h3>
+		Please use the mirroring services of Sourceforge to download JSpective:<br/>
+		<br/>
+		The latest versions of JSpective are always published as  tgz-archives.<br/>
+		Go to the <a href="http://sourceforge.net/project/showfiles.php?group_id=193340">JSpective Download Page</a> (at Sourceforge.net).<br/>
+		<ul>
+			<li>Just unpack the tgz-archive (will create folder "jspective_vXXX/").</li>
+			<li>Open jspective_vXXX/src/index.html in a recent webbrower.</li>
+			<li>That's it.</li>
+		</ul>
+		
+		<br/>
+		<h3>CVS Repository</h3>
+		Use your <span style="font-weight:bold">web browser</span> to access the source read-only:<br/>
+		<a href="http://jvanish.cvs.sourceforge.net/jvanish/">JSpective CVS repository</a> (hosted by Sourceforge.net).<br/>
+		<br/>
+		Or use a <span style="font-weight:bold">CVS client</span> for regular downloads of the freshest files.<br/>
+		<p style="text-indent:15px">
+		
+			[FOLLOWING INSTRUCTIONS ARE NOT WORKING AT THE MOMENT]<br/>	
+			<ul>
+				<li>Create a new "workspace" directory and enter it ...<br/>
+						$# mkdir workspace<br/>
+						$# cd workspace
+				</li>
+				<li>Login anonymously to cvs repository ...<br/>
+						(When prompted for password leave empty.)<br/>
+						$# cvs -d:pserver:anonymous@jvanish.cvs.sourceforge.net:/cvsroot/jvanish login<br/>
+				</li>
+				<li>Checkout (download) all files and directories recursively ...<br/>
+						$# cvs -z3 -d:pserver:anonymous@jvanish.cvs.sourceforge.net:/cvsroot/jvanish checkout<br/>
+				</li>
+			</ul>
+		</p>
+		<p>
+			You can also <span style="font-weight:bold">use rsync</span> to regulary synchronize all changes to a local copy ...<br/>
+			<ul>
+				<li>$# rsync -av rsync://jvanish.cvs.sourceforge.net/cvsroot/jspective/*</li>
+			</ul>
+		</p>
+		
+		Documentation for developers (class diagrams and the like) is maintained in the sources under developer_doc/.<br/>
+		
+		<br/>
+		<h3>Project Management</h3>
+		For general information on developing JSpective (bug tracking, support requests, mailing list discussions, etc.) see:<br/>
+		<a href="http://sourceforge.net/projects/jvanish">JSpective at Sourceforge</a>.
+		<br/>
+		<br/>
+		JSpective is free and open source, published with the <a href="http://www.gnu.org/licenses/gpl.txt">GNU General Public License</a>.<br/>
+		<br/>
+	</div>
+</div>

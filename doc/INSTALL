@@ -1,0 +1,9 @@
+INSTALL
+
+- Unpack the distributed tar-gz-archive (.tgz) -> will create a folder jspective_vXXX.
+- Open jspective_vXXX/src/index.html in a recent web browser.
+- Have fun.
+
+In case you deactivated JavaScript in your browser preferences,
+JSpective will not start any interaction at all and display a static intro-page.
+Turn on JavaScript in your browser to use JSpective.

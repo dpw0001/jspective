@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<menu xmlns="http://www.softwareagent.de/jspective" xml:lang="de">
+	<page>
+		<title>to shuffle items</title>
+		<url>pages/jspective_demo/under_construction.html</url>
+	</page>
+	<page>
+		<title>Click on background</title>
+		<url>pages/jspective_demo/under_construction.html</url>
+	</page>
+	<page>
+		<url>pages/jspective_demo/under_construction.html</url>
+		<image width="95" height="90">pages/img/jspective_demo/comp1.gif</image>
+	</page>
+	<page>
+		<url>pages/jspective_demo/under_construction.html</url>
+		<image width="95" height="90">pages/img/jspective_demo/comp2.gif</image>
+	</page>
+	<page>
+		<url>pages/jspective_demo/under_construction.html</url>
+		<image width="95" height="90">pages/img/jspective_demo/comp3.gif</image>
+	</page>
+	<page>
+		<url>pages/jspective_demo/under_construction.html</url>
+		<image width="95" height="90">pages/img/jspective_demo/comp2.gif</image>
+	</page>
+	<page>
+		<url>pages/jspective_demo/under_construction.html</url>
+		<image width="95" height="90">pages/img/jspective_demo/comp6.gif</image>
+	</page>
+	<page>
+		<url>pages/jspective_demo/under_construction.html</url>
+		<image width="95" height="90">pages/img/jspective_demo/comp1.gif</image>
+	</page>
+</menu>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<menu xmlns="http://www.softwareagent.de/jspective" xml:lang="de">
+	<page>
+		<title>Your site here</title>
+		<url>pages/jspective_demo/under_construction.html</url>
+	</page>
+	<page>
+		<title>Games</title>
+		<url>pages/jspective_demo/under_construction.html</url>
+	</page>
+	<page>
+		<title>General data browsing</title>
+		<url>pages/jspective_demo/under_construction.html</url>
+	</page>
+</menu>

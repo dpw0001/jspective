@@ -1,0 +1,36 @@
+<div class="transport_container">
+	<div class="page_viewer_title">
+		<h2>JSpective - Core Concepts</h2>
+	</div>
+	<div class="page_viewer_content">
+		<p>
+			JSpective is a minimalistic 3D engine implementing a vanishing point projection
+			(Fluchtpunktprojektion) based solely on standard web technologies: JavaScript, HTML, CSS.
+		</p>
+
+		<h3>The core concept</h3>
+		<p>
+			Each topic presented on screen as a floating rectangle is internally represented
+			by an object named Avatar.<br/>
+			Each Avatar knows its current position P1(x,y,z) in a three-dimensional coordinate system.<br/>
+		</p>
+
+		<h3>The projection algorithm</h3>
+		<p>
+			The movement from current position P1 towards the target P2 is calculated in the
+			three-dimensional space (like Vector = P2 - P1).<br/>
+			For presentation on the two-dimensional screen, an Avatar's position, box size and font size
+			are returned from a vanishing point projection of the three-dimensional data.
+			This projection alghorithm is the core of the program and although being rather simple maths,
+			it drives the application nicely - with only few lines of JavaScript and even less HTML.<br/>
+		</p>
+
+		<h3>The interactivity</h3>
+		<p>
+			A PageAvatar, when being clicked upon, will instantly send an AJAX request to the server
+			and fetch the content for its topic in the background.<br/>
+			While fetching the data, the PageAvatar will move to the side and front of the space
+			and when arrived, open a viewport to display the data (content) in.<br/>
+			When closing the viewport, the PageAvatar's box restarts its default behaviour floating around again.<br/>
+		</p>
+</div>

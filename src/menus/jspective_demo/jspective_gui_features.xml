@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<menu xmlns="http://www.softwareagent.de/jspective" xml:lang="de">
+	<page>
+		<title>More to come</title>
+		<url>pages/jspective_demo/under_construction.html</url>
+	</page>
+	<submenu mode="shuffle">
+		<title>Shuffling Menu</title>
+		<url>menus/jspective_demo/demo_shuffle_menu.xml</url>
+	</submenu>
+	<submenu mode="wheel">
+		<title>Wheel Menu</title>
+		<url>menus/jspective_demo/very_big_demo_menu.xml</url>
+	</submenu>
+	<link>
+		<title>External Link www.kernel.org</title>
+		<url>http://www.kernel.org</url>
+	</link>
+	<page>
+		<title>Content Page</title>
+		<url>pages/jspective_demo/about_jspective.html</url>
+	</page>
+</menu>

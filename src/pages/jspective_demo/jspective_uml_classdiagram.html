@@ -1,0 +1,37 @@
+<div class="transport_container">
+	<div class="page_viewer_title">
+		<h2>JSpective - UML diagrams</h2>
+	</div>
+	<div class="page_viewer_content">
+		<h3>UML class diagram</h3>
+		The class diagram [1] aims towards solving the following:<br/>
+		<ol>
+				<li>We want a three dimensional representation of any object in a virtual space displayed on a flat screen.
+			This is accomplished by the class "Projection".</li>
+			<li>We want a interactive GUI widget set, with each widget showing different shape and behaviour in the virtual space. This is done by providing the abstract class "Avatar": Whoever implements Avatar, is a "Projection User" and will thereby have its three-dimensional representation.</li>
+			<li>We want three-dimensional menu navigation. This is targeted by the classes "MenuLevel", "MenuItem", plus the "MENU_STACK" which buffers multiple submenus.</li>
+		</ol>
+		<br/>
+		<img border="0" src="pages/img/jspective_uml_classdiagram.jpg" alt="JSpective UML Klassendiagramm" /><br/>
+		[diagram 1]<br/>
+		<br/>
+		<br/>
+		Remarks on the design work:<br/>
+		<ul>
+			<li>The development method I use at the moment is iterative prototyping. This means the diagrams will be updated from time to time, but in general are behind the code basis.</li>
+			<li>After having prototyped a first up and running version, I invested some work in redesign to get a proper code basis.<br/>
+			As a side effect of the clean-up (doing interface separation), the CPU load on my small machine dropped from about 15%+ to about 9%+. That is only 6% less load on the CPU (you couldn't "feel" the difference). But relatively this calculates to 40% performance increase, which was really nice if correctly estimated. At the moment I'm adding load again. This is roughly the project's state.
+			</li>
+		</ul>
+		
+		<h3>UML state diagram</h3>
+		The above class diagram [1] reflects software architecture from a static point of view (by looking at data encapsulation and object interrelations).<br/>
+		The following state diagram [2] will abstract the flow of control during program runtime.<br/>
+		<br/>
+		[ TODO: diagram 2] Program states are the next thing in need of documentation for JSpective (to get "the big picture").<br/>
+		<br/>
+		
+		...<br/>
+		<br/>
+	</div>
+</div>

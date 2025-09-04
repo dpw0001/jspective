@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<menu xmlns="http://www.softwareagent.de/jspective" xml:lang="de">
+	<page>
+		<title>... we'll see</title>
+		<url>pages/jspective_demo/under_construction.html</url>
+		<image width="95" height="90">pages/img/jspective_demo/HAL_9000_eye.gif</image>
+	</page>
+	<page>
+		<title>Machine Learning</title>
+		<url>pages/jspective_demo/under_construction.html</url>
+		<image width="95" height="90">pages/img/jspective_demo/Matrix-Animated.gif</image>
+	</page>
+	<page>
+		<title>Inter-connectivity</title>
+		<url>pages/jspective_demo/under_construction.html</url>
+		<image width="95" height="90">pages/img/jspective_demo/wikipedia.gif</image>
+	</page>
+	<page>
+		<title>Compu-tation</title>
+		<url>pages/jspective_demo/under_construction.html</url>
+		<image width="95" height="90">pages/img/jspective_demo/comp5.gif</image>
+	</page>
+	<page>
+		<title>Letter-press</title>
+		<url>pages/jspective_demo/under_construction.html</url>
+		<image width="95" height="90">pages/img/jspective_demo/dickes_buch.gif</image>
+	</page>
+	<page>
+		<title>Papyrus</title>
+		<url>pages/jspective_demo/under_construction.html</url>
+		<image width="95" height="90">pages/img/jspective_demo/papyrus.gif</image>
+	</page>
+	<page>
+		<title>Cuneiform</title>
+		<url>pages/jspective_demo/under_construction.html</url>
+		<image width="95" height="90">pages/img/jspective_demo/rosettastein.gif</image>
+	</page>
+</menu>

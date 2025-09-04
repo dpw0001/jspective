@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta name="author" content="Daniel-Percy Wimpff" />
+	<meta name="copyright" content="JSpective (c) 2007-2025 Daniel-Percy Wimpff" />
+	<meta name="date" content="2025-09-04" />
+	<title>JSpective Demo</title>
+	<link rel="stylesheet" href="css/jspectiveStyles.css" />
+	<script type="text/javascript" src="js/libs/jquery-3.7.1.min.js"></script>
+	<script type="text/javascript" src="js/Projection.js"></script>
+	<script type="text/javascript" src="js/PageAvatar.js"></script>
+	<script type="text/javascript" src="js/MenuAvatar.js"></script>
+	<script type="text/javascript" src="js/MenuItemRecord.js"></script>
+	<script type="text/javascript" src="js/MenuItemRecords.js"></script>
+	<script type="text/javascript" src="js/MenuLevel.js"></script>
+	<script type="text/javascript" src="js/PageViewer.js"></script>
+	<script type="text/javascript" src="js/MenuToolbar.js"></script>
+	<script type="text/javascript" src="js/JSpectiveMain.js"></script>
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		globalThis.JSPECTIVE = new JSpectiveMain();
+
+		$(document).ready(function(){
+			let jspective = globalThis.JSPECTIVE;
+			
+			// Example 1:
+			// Use the following line to request the initial main menu data from a URL:
+			//
+			//jspective.init("menus/jspective_demo/main_menu.xml", null, false);
+			
+			
+			// Example 2:
+			// Use the following lines, to manually configure the initial main menu data
+			// instead of requesting the menu data (as XML) from a URL:
+			//
+			let mainMenuRecords = new MenuItemRecords();
+			mainMenuRecords.addEntry(jspective._menuItemTypeMenu, "JSpective GUI Features", false, "menus/jspective_demo/jspective_gui_features.xml", 250, 127, "pages/img/jspective_demo/rainbow.png", "wheel");
+			mainMenuRecords.addEntry(jspective._menuItemTypePage, "About JSpective", false, "pages/jspective_demo/about_jspective.html", 292, 204, "pages/img/jspective_demo/cyborg.png");
+			mainMenuRecords.addEntry(jspective._menuItemTypeMenu, "Fnord", false, "menus/jspective_demo/fnord.xml", 200, 172, "pages/img/jspective_demo/guppy.png");
+			mainMenuRecords.addEntry(jspective._menuItemTypeMenu, "Source Code and Documentation", false, "menus/jspective_demo/source_and_doc.xml", 224, 150, "pages/img/jspective_demo/software.jpg", "wheel");
+			mainMenuRecords.addEntry(jspective._menuItemTypeLink, "Github", false, "https://github.com/dpw0001/jspective", 141, 141, "pages/img/jspective_demo/github-logo.png", null);
+			jspective.init(null, mainMenuRecords, false);
+		});
+		/* ]]> */
+	</script>
+</head>
+
+<body>
+	<!-- 
+		Avatars are appended inside ProjectionScreen2D 
+		with z-index = (VIRTUAL_SPACE_DEPTH + 100) - current posZ.
+		So z-index below 100 can used inside ProjectionScreen2D for background layers.
+	-->
+	<div id="SiteTitlebar">
+		<div class="siteTitlebar">
+			<h1>JSpective - demo page</h1>
+		</div>
+		<div id="jspectiveTitle" class="siteTitlebar">
+			<h2 class="siteTitlebar">JSpective</h2>
+			A minimalistic 3D API<br/>Build solely on<br/>HTML/CSS/JS
+		</div>
+	</div>
+
+	<div id="container">
+		
+		<div id="ProjectionScreen2D">
+			<!--
+				<img src="gui_img/vanishing_point.jpg" alt="" border="0" width="750" height="500" style="position:absolute; top:0px; left:0px; z-index: 12;" />
+			 -->
+
+			<!-- Generated Avatars get inserted here and look like:
+				<div class="avatar" id="Avatar_MENUID_AVATARID">
+					Label
+				</div>
+			-->
+
+			<div id="PageViewer_0" class="page_viewer">
+				<div class="page_viewer_title">
+					<h2>Welcome to JSpective</h2>
+				</div>
+				<div class="page_viewer_content">
+					<br/>
+					<p style="position:relative; left:0px; top:0px; text-align:center;">
+						To start the Online Demo, press the button.<br/>
+						<br/>
+						<input type="button" value="Start Demo" onclick="globalThis.JSPECTIVE._uniquePageViewer.closeView(); return false;"/><br/>
+					</p>
+
+					<p>JSpective is a minimalistic 3D engine implementing a vanishing point projection.<br/>
+						<br/>
+						It is based solely on standard text-based web technologies: JavaScript, HTML, CSS.<br/>
+						So web browsers can view spatial web applications without plug-ins
+						and the front-end is still as text-based as any common webpage.<br/>
+						<br/>
+						It is a toy project just for the fun and art.<br/>
+						<br/>
+						Project home is <a href="https://www.softwareagent.de/jspective">https://www.softwareagent.de/jspective</a>.
+					</p>
+
+					<h3>License</h3>
+					<p>
+						JSpective is free software under the <a target="_blank" href="https://www.tldrlegal.com/license/mit-license">MIT License</a>.
+					</p>
+
+					<h3>Dependencies</h3>
+					<p>
+						As its only library dependency, JSpective currently uses <a target="_blank" href="https://jquery.com">jQuery</a>.
+					</p>
+
+					<h3>Author</h3>
+					<p>
+						Daniel-Percy Wimpff &lt;<a href="mailto:daniel@wimpff.de">daniel@wimpff.de</a>&gt;<br/>
+						<br/>
+						Feel free to drop me an email.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

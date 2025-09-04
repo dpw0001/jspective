@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<menu xmlns="http://www.softwareagent.de/jspective" xml:lang="de">
+	<page>
+		<title>TODO</title>
+		<url>pages/jspective/under_construction.html</url>
+	</page>
+</menu>
