@@ -26,15 +26,15 @@ you have two alternative options:
 
 ### ... or deploy using git
 1. Clone needed parts without immediate checkout:
-  git clone --no-checkout --depth 1 --sparse https://github.com/dpw0001/jspective.git jspective
+		git clone --no-checkout --depth 1 --sparse https://github.com/dpw0001/jspective.git jspective
 2. Change into the newly created directory:
-  cd jspective
+		cd jspective
 3. Now checkout "src" directory only:
-  git sparse-checkout init --no-cone
-  echo "/src/*" > .git/info/sparse-checkout
-  git checkout main
+		git sparse-checkout init --no-cone
+		echo "/src/*" > .git/info/sparse-checkout
+		git checkout main
 4. Move the "src" directory to a target directory of your choice
-  mv src MY_NEW_DIR_NAME
+		mv src MY_NEW_DIR_NAME
 5. Open file "MY_NEW_DIR_NAME/index.html" in a webbrowser.
 
 ## Dependencies
