@@ -1,6 +1,6 @@
 // ------------------------------------------------------------------
 // JSpective - Minimalistic JavaScript 3D API
-//           - A playfull experimental toy and demo project
+//           - A playful experimental toy and demo project
 // ------------------------------------------------------------------
 // Author: Daniel-Percy Wimpff <daniel@wimpff.de>
 // Version: 0.3.30
