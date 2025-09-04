@@ -8,7 +8,7 @@ and the front-end is still as text-based as any common webpage.
 
 It is a toy project just for the fun and art.
 
-Project home is <a href="https://www.softwareagent.de/jspective">https://www.softwareagent.de/jspective</a>.<br/>
+Project home - including online demo - is <a href="https://www.softwareagent.de/jspective">https://www.softwareagent.de/jspective</a>.<br/>
 
 ## License
 JSpective is free software under the <a target="_blank" href="https://www.tldrlegal.com/license/mit-license">MIT License</a>.
