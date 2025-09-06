@@ -6,32 +6,32 @@
 		<image width="95" height="90">pages/img/jspective_demo/HAL_9000_eye.gif</image>
 	</page>
 	<page>
-		<title>Machine Learning</title>
+		<title>Deep Learning (-20y)</title>
 		<url>pages/jspective_demo/under_construction.html</url>
 		<image width="95" height="90">pages/img/jspective_demo/Matrix-Animated.gif</image>
 	</page>
 	<page>
-		<title>Inter-connectivity</title>
+		<title>Inter-connectivity (-40y)</title>
 		<url>pages/jspective_demo/under_construction.html</url>
 		<image width="95" height="90">pages/img/jspective_demo/wikipedia.gif</image>
 	</page>
 	<page>
-		<title>Compu-tation</title>
+		<title>Digital data processing (-84y)</title>
 		<url>pages/jspective_demo/under_construction.html</url>
 		<image width="95" height="90">pages/img/jspective_demo/comp5.gif</image>
 	</page>
 	<page>
-		<title>Letter-press</title>
+		<title>Letter-press (-1000y)</title>
 		<url>pages/jspective_demo/under_construction.html</url>
 		<image width="95" height="90">pages/img/jspective_demo/dickes_buch.gif</image>
 	</page>
 	<page>
-		<title>Papyrus</title>
+		<title>Papyrus (-4000y)</title>
 		<url>pages/jspective_demo/under_construction.html</url>
 		<image width="95" height="90">pages/img/jspective_demo/papyrus.gif</image>
 	</page>
 	<page>
-		<title>Cuneiform</title>
+		<title>Cuneiform (-6000y)</title>
 		<url>pages/jspective_demo/under_construction.html</url>
 		<image width="95" height="90">pages/img/jspective_demo/rosettastein.gif</image>
 	</page>
