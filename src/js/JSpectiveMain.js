@@ -395,7 +395,7 @@ class JSpectiveMain {
 	}
 
 
-	keyPress (e) {
+	keyPress(e) {
 		if(e.key === "Escape") {
 			// TODO: Implement handling escape key
 		}
