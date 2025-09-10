@@ -19,7 +19,6 @@ class MenuAvatar {
 	// Implements interface ProjectionUser
 	_projection;
 	_domId;
-	_domElement
 	
 	// Implements interface Avatar
 	_label;
