@@ -11,23 +11,13 @@
 		<url>pages/jspective_demo/under_construction.html</url>
 	</page>
 	<page>
-		<title>Bugs and errata</title>
-		<!--<url>pages/jspective_demo/bugs_errata.html</url>-->
-		<url>pages/jspective_demo/under_construction.html</url>
-	</page>
-	<page>
-		<title>Support Requests</title>
-		<!--<url>pages/jspective_demo/support.html</url>-->
-		<url>pages/jspective_demo/under_construction.html</url>
-	</page>
-	<page>
 		<title>Core Concepts</title>
 		<!--<url>pages/jspective_demo/core_concepts.html</url>-->
 		<url>pages/jspective_demo/under_construction.html</url>
 	</page>
-	<page>
-		<title>Download source code</title>
-		<!--<url>pages/jspective_demo/download_jspective.html</url>-->
-		<url>pages/jspective_demo/under_construction.html</url>
-	</page>
+	<link>
+		<title>Github Download</title>
+		<url>https://github.com/dpw0001/jspective</url>
+		<image width="141" height="141">pages/img/jspective_demo/github-logo.png</image>
+	</link>
 </menu>
