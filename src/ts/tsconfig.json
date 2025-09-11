@@ -1,0 +1,26 @@
+{
+  "include": ["./*.ts"],
+
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "../js",
+	"types": ["jquery"],
+
+	"module": "es2015",
+	"target": "es2015",
+
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "noUncheckedIndexedAccess": false,
+
+	"noImplicitReturns": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "noFallthroughCasesInSwitch": true,
+	
+    "strict": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+  }
+}
