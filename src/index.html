@@ -5,46 +5,35 @@
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<meta name="author" content="Daniel-Percy Wimpff" />
 	<meta name="copyright" content="JSpective (c) 2007-2025 Daniel-Percy Wimpff" />
-	<meta name="date" content="2025-09-04" />
+	<meta name="date" content="2025-09-11" />
 	<title>JSpective Demo</title>
 	<link rel="stylesheet" href="css/jspectiveStyles.css" />
 	<script type="text/javascript" src="js/libs/jquery-3.7.1.min.js"></script>
-	<script type="text/javascript" src="js/Projection.js"></script>
-	<script type="text/javascript" src="js/PageAvatar.js"></script>
-	<script type="text/javascript" src="js/MenuAvatar.js"></script>
-	<script type="text/javascript" src="js/MenuItemRecord.js"></script>
-	<script type="text/javascript" src="js/MenuItemRecords.js"></script>
-	<script type="text/javascript" src="js/MenuLevel.js"></script>
-	<script type="text/javascript" src="js/PageViewer.js"></script>
-	<script type="text/javascript" src="js/MenuToolbar.js"></script>
-	<script type="text/javascript" src="js/JSpectiveMain.js"></script>
-	<script type="text/javascript">
-		/* <![CDATA[ */
-		globalThis.JSPECTIVE = new JSpectiveMain();
-
-		$(document).ready(function(){
-			let jspective = globalThis.JSPECTIVE;
-			
-			// Example 1:
-			// Use the following line to request the initial main menu data from a URL:
-			//
-			//jspective.init("menus/jspective_demo/main_menu.xml", null, false);
-			
-			
-			// Example 2:
-			// Use the following lines, to manually configure the initial main menu data
-			// instead of requesting the menu data (as XML) from a URL:
-			//
-			let mainMenuRecords = new MenuItemRecords();
-			mainMenuRecords.addEntry(jspective._menuItemTypeMenu, "JSpective GUI Features", false, "menus/jspective_demo/jspective_gui_features.xml", 250, 127, "pages/img/jspective_demo/rainbow.png", "wheel");
-			mainMenuRecords.addEntry(jspective._menuItemTypePage, "About JSpective", false, "pages/jspective_demo/about_jspective.html", 292, 204, "pages/img/jspective_demo/cyborg.png");
-			mainMenuRecords.addEntry(jspective._menuItemTypeMenu, "Fuge", false, "menus/jspective_demo/fuge.xml", 200, 172, "pages/img/jspective_demo/guppy.png");
-			mainMenuRecords.addEntry(jspective._menuItemTypeMenu, "Source Code and Documentation", false, "menus/jspective_demo/source_and_doc.xml", 224, 150, "pages/img/jspective_demo/software.jpg", "wheel");
-			mainMenuRecords.addEntry(jspective._menuItemTypeLink, "Github", false, "https://github.com/dpw0001/jspective", 141, 141, "pages/img/jspective_demo/github-logo.png", null);
-			jspective.init(null, mainMenuRecords, false);
-		});
-		/* ]]> */
+	<script type="importmap">
+		{
+			"imports": {
+				"./Projection.js": "./js/Projection.js",
+				"./PageAvatar.js": "./js/PageAvatar.js",
+				"./MenuAvatar.js": "./js/MenuAvatar.js",
+				"./MenuItemRecord.js": "./js/MenuItemRecord.js",
+				"./MenuItemRecords.js": "./js/MenuItemRecords.js",
+				"./MenuLevel.js": "./js/MenuLevel.js",
+				"./PageViewer.js": "./js/PageViewer.js",
+				"./MenuToolbar.js": "./js/MenuToolbar.js",
+				"./JSpective.js": "./js/JSpective.js"
+			}
+		}
 	</script>
+	<script type="module" src="js/Projection.js"></script>
+	<script type="module" src="js/PageAvatar.js"></script>
+	<script type="module" src="js/MenuAvatar.js"></script>
+	<script type="module" src="js/MenuItemRecord.js"></script>
+	<script type="module" src="js/MenuItemRecords.js"></script>
+	<script type="module" src="js/MenuLevel.js"></script>
+	<script type="module" src="js/PageViewer.js"></script>
+	<script type="module" src="js/MenuToolbar.js"></script>
+	<script type="module" src="js/JSpective.js"></script>
+	<script type="module" src="js/onDocumentReady.js"></script>
 </head>
 
 <body>
