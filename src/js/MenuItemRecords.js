@@ -48,7 +48,7 @@ export class MenuItemRecords {
                     if (attrWidth != null) {
                         imageWidth = parseInt(attrWidth);
                     }
-                    let attrHeight = imgTag.getAttribute("width");
+                    let attrHeight = imgTag.getAttribute("height");
                     if (attrHeight != null) {
                         imageHeight = parseInt(attrHeight);
                     }
