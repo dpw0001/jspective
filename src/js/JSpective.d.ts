@@ -1,0 +1,42 @@
+import { MenuToolbar } from './MenuToolbar.js';
+import { PageViewer } from './PageViewer.js';
+import { MenuItemRecords } from './MenuItemRecords.js';
+export declare class JSpective {
+    enableDebug: boolean;
+    mainMenuUrl: string;
+    viewportWidth: number;
+    viewportHeight: number;
+    virtualSpaceWidth: number;
+    virtualSpaceHeight: number;
+    virtualSpaceDepth: number;
+    groundLevelY: number;
+    levelHeight: number;
+    initVanishX: number;
+    initVanishY: number;
+    initVanishZ: number;
+    defaultSpeed: number;
+    defaultFontSize: number;
+    mainInterval: number | undefined;
+    intervalPeriod: number;
+    openMenuInterval: number | undefined;
+    openMenuPeriod: number;
+    menuStack: any;
+    activeMenuId: number;
+    tempAnimationStack: Array<MenuToolbar>;
+    uniquePageViewer: PageViewer;
+    uniqueMenuToolbar: MenuToolbar;
+    projectionScreen2dDom: HTMLElement | null;
+    constructor();
+    init(mainMenuUrl: string, menuItemRecords: MenuItemRecords | null, showInitialPage: boolean): void;
+    private loadInitialMenu;
+    handleOpenMenuInterval(): void;
+    logConfig(): void;
+    handleClickAnchor(event: any): boolean;
+    handleClickBackground(event: any): boolean;
+    handleOnResizeViewport(event: any): void;
+    keyPress(e: any): void;
+    startAnimation(): void;
+    handleAnimationInterval(): void;
+    stopAnimation(): void;
+}
+//# sourceMappingURL=JSpective.d.ts.map
