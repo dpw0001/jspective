@@ -3,11 +3,13 @@
 // Copyright (c) 2007-2025 Daniel-Percy Wimpff <daniel@wimpff.de>, Germany
 // MIT License
 // ------------------------------------------------------------------
+import { Avatar } from "./Avatar.js";
+import { EnumAnimationMode } from "./Enums.js";
+import { IMenuItem } from "./IMenuItem.js";
 import { JSpective } from "./JSpective.js";
-import { Projection } from "./Projection.js";
 import { MenuLevel } from "./MenuLevel.js";
 
-export class MenuAvatar {
+export class MenuAvatar extends Avatar implements IMenuItem {
 
 	// Private members
 	// ---------------
@@ -17,53 +19,41 @@ export class MenuAvatar {
 	// Public members
 	// --------------
 
-	public _id: number;
-	public _domElement: any;
-	
-	// Implements interface ProjectionUser
-	public _projection: Projection;
-	public _domId: string;
-	
-	// Implements interface Avatar
-	public _label: string;
-	public _hideLabel: boolean;
-	public _baseCssClass: string;
-	public _imageUrl: string;
-	
-	// Implements interface MenuItem
-	public _dataUrl: string;
-	public _parentMenu: MenuLevel;
-	public _isSelfTargeting: boolean;
-	public _isOpened: boolean;
-	public _isParked: boolean;
-	public _isClosing: boolean;
-	public _isMouseOver: boolean;
+	// Implements interface IMenuItem
+	public menuItemId: number;
+	public dataUrl: string;
+	public parentMenuLevel: MenuLevel;
+	public isSelfTargeting: boolean;
+	public isOpened: boolean;
+	public isParked: boolean;
+	public isClosing: boolean;
+	public isMouseOver: boolean;
 
-	public _defaultMenuMode: string|null;
+	public defaultAnimationMode: EnumAnimationMode;
 	
-	constructor(id: number, label: string, hideLabel: boolean, dataUrl: string, parentMenu: MenuLevel,
-				width: number, height: number, baseCssClass: string, imageUrl: string, defaultMenuMode: string|null) {
-		this._id = id;
+	constructor(jspective: JSpective, menuItemId: number, label: string, hideLabel: boolean, dataUrl: string, parentMenuLevel: MenuLevel,
+				width: number, height: number, baseCssClass: string, imageUrl: string, defaultAnimationMode: EnumAnimationMode) {
 		
-		this._projection = new Projection(id, this, width, height, JSpective._singleton._defaultFontSize, JSpective._singleton._initVanishX, JSpective._singleton._initVanishY, JSpective._singleton._initVanishZ, JSpective._singleton._defaultSpeed);
-		this._projection._parent = this; // Register this Avatar with its child Projection for callbacks
-		this._domId = "Avatar_" + parentMenu._id + "_" + id;
-		this._domElement = null;
+		let domId = "Avatar_" + parentMenuLevel.menuLevelId + "_" + menuItemId;
+		super(jspective, domId, label, hideLabel, width, height, baseCssClass, imageUrl);
 		
-		this._label = label;
-		this._hideLabel = hideLabel;
-		this._baseCssClass = baseCssClass;
-		this._imageUrl = imageUrl;
+		this.menuItemId = menuItemId;
+		this.dataUrl = dataUrl;
+		this.parentMenuLevel = parentMenuLevel;
+		this.isSelfTargeting = false;
+		this.isOpened = false;
+		this.isParked = false;
+		this.isClosing = false;
+		this.isMouseOver = false;
 		
-		this._dataUrl = dataUrl;
-		this._parentMenu = parentMenu;
-		this._isSelfTargeting = false;
-		this._isOpened = false;
-		this._isParked = false;
-		this._isClosing = false;
-		this._isMouseOver = false;
+		this.defaultAnimationMode = defaultAnimationMode;
 		
-		this._defaultMenuMode = defaultMenuMode;
+		// Bind event handlers to this
+		// ---------------------------
+		// Note: Done in superclass - seems to work fine
+		//this.handleClick = this.handleClick.bind(this);
+		//this.handleMouseOver = this.handleMouseOver.bind(this);
+		//this.handleMouseOut = this.handleMouseOut.bind(this);
 		
 		this.createDOM();
 	}
@@ -72,253 +62,169 @@ export class MenuAvatar {
 	// Private methods
 	// ---------------
 
-	// Implements interface ProjectionUser
-	private createDOM(): void { 
-		let projectionScreen2D_DOM =  document.getElementById('ProjectionScreen2D');
-		if(projectionScreen2D_DOM == null) {
-			console.error("Missing element id \"ProjectionScreen2D\" in HTML.");
-			
-		} else {
-			this._domElement = document.createElement("div");
-			
-			let idAttr = document.createAttribute("id");
-			idAttr.nodeValue = this._domId;
-			this._domElement.setAttributeNode(idAttr);
-			
-			let classAttr = document.createAttribute("class");
-			classAttr.nodeValue = "avatar " + this._baseCssClass;
-			this._domElement.setAttributeNode(classAttr);
-			
-			projectionScreen2D_DOM.appendChild(this._domElement);
-			
-			if(this._imageUrl.length > 0) {
-				$("div#" + this._domId).append("<img src=\"" + this._imageUrl + "\" class=\"avatar_image\" alt=\"\" width=\"" + this._projection._projectedWidth + "\" height=\""+ this._projection._projectedHeight + "\" />");
-			}
-			
-			if(!this._hideLabel) {
-				let labelDOM = document.createElement("div");
-				let labelClassAttr = document.createAttribute("class");
-				labelClassAttr.nodeValue = "avatarLabel";
-				labelDOM.setAttributeNode(labelClassAttr);
-				
-				let labelTextNode = document.createTextNode(this._label);
-				labelDOM.appendChild(labelTextNode);
-				this._domElement.appendChild(labelDOM);
-			}
-			
-			// Register event handlers
-			$("div#" + this._domId).on("click", null, this._domId, JSpective._singleton.handleClickAvatar);
-			$("div#" + this._domId).on("mouseover", null, this._domId, JSpective._singleton.handleMouseOverAvatar);
-			$("div#" + this._domId).on("mouseout", null, this._domId, JSpective._singleton.handleMouseOutAvatar);
-		}
-	}
-
 
 	// Public methods
 	// --------------
 
-	// Implements interface ProjectionUser
+	// Implements interface IProjectionUser
 	public reachedTarget(): void {
-		if(this._isOpened) {
+		if(this.isOpened) {
 			// Switch to next menu level (exactly now on menu avatars arrival!)
-			JSpective._singleton._activeMenuId = JSpective._singleton._activeMenuId + 1;
+			this.jspective.activeMenuId = this.jspective.activeMenuId + 1;
 			
-			// Retry interval: show avatars of submenu if request has finished (MenuLevel._isLoaded)
+			// Retry interval: show avatars of submenu if request has finished (MenuLevel.isLoaded)
 			// (Release interval in MenuLevel.finishedLoading() and on request error and timeout event handlers)
-			//JSpective._singleton._openMenuInterval = window.setInterval("JSpective._singleton._menuStack[JSpective._singleton._activeMenuId].finishedLoading()", JSpective._singleton._openMenuPeriod);
-			JSpective._singleton._openMenuInterval = window.setInterval(JSpective._singleton.handleOpenMenuInterval, JSpective._singleton._openMenuPeriod);
+			this.jspective.openMenuInterval = window.setInterval(this.jspective.handleOpenMenuInterval, this.jspective.openMenuPeriod);
 			
 			//position menu toolbar
-			JSpective._singleton._uniqueMenuToolbar.warpToActiveMenu();
+			this.jspective.uniqueMenuToolbar.warpToActiveMenu();
 		}
-		this._projection._speed = JSpective._singleton._defaultSpeed;
-		this._isSelfTargeting = false;
+		this.projection.speed = this.jspective.defaultSpeed;
+		this.isSelfTargeting = false;
 	}
 
 
-	// Implements interface ProjectionUser
-	public updateDOM(): void {
-		//let AvatarDOM = document.getElementById(this._domId);
-		this._domElement.style.left = this._projection._projectedX + "px";
-		this._domElement.style.top = this._projection._projectedY + "px";
-		this._domElement.style.width = this._projection._projectedWidth + "px";
-		
-		// Note: avatarHeight is auto-ajusted according to its child-elements
-		//this._domElement.style.height = this._projection._projectedHeight + "px";
-		
-		this._domElement.style.fontSize = this._projection._projectedFontsize + "pt";
-		this._domElement.style.zIndex = (JSpective._singleton._virtualSpaceDepth + 100) - this._projection._posZ;
-		
-		if(this._imageUrl.length > 0) {
-			let imgDom = this._domElement.getElementsByTagName("img")[0];
-			if(imgDom != undefined) {
-				imgDom.width = this._projection._projectedWidth;
-				imgDom.height = this._projection._projectedHeight;
-			}
-		}
-		// Uncomment for debugging purposes
-		//$("div#" + this._domId).empty().append(this._label + "any debug info");
-	}
-
-
-	// Implements interface ProjectionUser
-	public removeDOM(): void {
-		$("div#" + this._domId).remove();
-	}
-
-
-	// Implements interface ProjectionUser
-	public showDOM(): void {
-		$("div#" + this._domId).show();
-	}
-
-
-	// Implements interface ProjectionUser
-	public hideDOM(): void {
-		$("div#" + this._domId).hide();
-	}
-
-	// Implements interface MenuItem
+	// Implements interface IMenuItem
 	public openItem(): void {
-		this._isMouseOver = false; // Free from mouseover effects
-		this._isOpened = true;
-		this._isSelfTargeting = true;
-		this._projection._speed = 35;
+		this.isMouseOver = false; // Free from mouseover effects
+		this.isOpened = true;
+		this.isSelfTargeting = true;
+		this.projection.speed = 35;
 		let targetX = -100;
-		let targetY = (JSpective._singleton._menuStack[JSpective._singleton._activeMenuId]._groundLevel) - (JSpective._singleton._levelHeight * 0.8);
+		let targetY = (this.jspective.menuStack[this.jspective.activeMenuId].groundLevel) - (this.jspective.levelHeight * 0.8);
 		let targetZ = 0;
-		this._projection.setTargetPosition(targetX, targetY, targetZ);
+		this.projection.setTargetPosition(targetX, targetY, targetZ);
 		
-		$("div#" + this._domId).addClass("opened");
+		$("div#" + this.domId).addClass("opened");
 	}
 
 
-	// Implements interface MenuItem
+	// Implements interface IMenuItem
 	public closeItem(): void {
-		this._isMouseOver = false; //free from mouse over effects
+		this.isMouseOver = false; //free from mouse over effects
 		
-		let activeMenuLevel = JSpective._singleton._menuStack[JSpective._singleton._activeMenuId];
+		let activeMenuLevel = this.jspective.menuStack[this.jspective.activeMenuId];
 		
 		// Unload menu
-		activeMenuLevel._isLoaded = false;
+		activeMenuLevel.isLoaded = false;
 		
 		// Remove related avatars
-		for(let item of activeMenuLevel._items) {
-			item._isParked = true;
-			item._isSelfTargeting = false;
+		for(let item of activeMenuLevel.items) {
+			item.isParked = true;
+			item.isSelfTargeting = false;
 			item.removeDOM();
 		}
 		
 		//---------- ACTIVE LEVEL SWITCH ---------------------------------------------------
 		// Drop menu from stack
-		JSpective._singleton._menuStack.pop();
+		this.jspective.menuStack.pop();
 		// Decrease menu level count
-		JSpective._singleton._activeMenuId = JSpective._singleton._activeMenuId - 1;
+		this.jspective.activeMenuId = this.jspective.activeMenuId - 1;
 		//-----------------------------------------------------------------------------------
 		
 		// Move toolbar to decreased level
-		if(JSpective._singleton._activeMenuId > 0) {
-			JSpective._singleton._uniqueMenuToolbar.warpToActiveMenu();
+		if(this.jspective.activeMenuId > 0) {
+			this.jspective.uniqueMenuToolbar.warpToActiveMenu();
 		} else {
 			// Init to main menu level
-			JSpective._singleton._uniqueMenuToolbar._projection.set3DPosition(-100, 400, 15); // FIXME: Use configurable values (Also in JSpective)
+			this.jspective.uniqueMenuToolbar.projection.set3DPosition(-100, 400, 15); // FIXME: Use configurable values (Also in JSpective)
 		}
 		
 		// Free the menu avatar that is being closed
-		this._projection._speed = JSpective._singleton._defaultSpeed;
-		this._isOpened = false;
-		this._isSelfTargeting = false;
-		$("div#" + this._domId).removeClass("opened");
+		this.projection.speed = this.jspective.defaultSpeed;
+		this.isOpened = false;
+		this.isSelfTargeting = false;
+		$("div#" + this.domId).removeClass("opened");
 		
-		let newActiveMenuLevel = JSpective._singleton._menuStack[JSpective._singleton._activeMenuId];
+		let newActiveMenuLevel = this.jspective.menuStack[this.jspective.activeMenuId];
 		let i = 0;
-		for(let item of newActiveMenuLevel._items) {
+		for(let item of newActiveMenuLevel.items) {
 			// Free avatars of reactivated menu from parking position
-			if(i != this._id) {
+			if(i != this.menuItemId) {
 				// Hint: Not all avatars may have been reset to the default speed, yet - So we ensure that here.
 				//       Is this a potential FIXME? => Can the reset to default speed be savely done earlier elsewhere,
 				//       making following line unnecessary?
-				item._projection._speed = JSpective._singleton._defaultSpeed;
+				item.projection.speed = this.jspective.defaultSpeed;
 				
-				item._isParked = false;
-				item._isSelfTargeting = false;
+				item.isParked = false;
+				item.isSelfTargeting = false;
 			}
 			
 			i++;
 		}
 		
 		// If exists, free parent menu avatar of reactivated menu
-		if(JSpective._singleton._activeMenuId > 0) {
-			let parentMenuLevel = JSpective._singleton._menuStack[JSpective._singleton._activeMenuId - 1];
-			for(let item of parentMenuLevel._items) {
-				if(item._isOpened) {
-					item._isParked = false;
+		if(this.jspective.activeMenuId > 0) {
+			let parentMenuLevel = this.jspective.menuStack[this.jspective.activeMenuId - 1];
+			for(let item of parentMenuLevel.items) {
+				if(item.isOpened) {
+					item.isParked = false;
 				}
 			}
 		}
 	}
 
 
-	// Implements interface MenuItem
-	public handleClick(): void {
-		this._isMouseOver = false; // Free from mouseover effects
+	// Implements class Avatar
+	public override handleClick(): boolean {
+		this.isMouseOver = false; // Free from mouseover effects
 		
-		if(!this._isParked) {
-			if(!this._isOpened) {
+		if(!this.isParked) {
+			if(!this.isOpened) {
 				// Menu avatar is clicked to be opened. Make a request to server to fetch content.
-				if(this._dataUrl.length > 0) {
+				if(this.dataUrl.length > 0) {
 					// Park the parent menu avatar of current menu, if exists
-					if( JSpective._singleton._activeMenuId > 0) {
-						let parentMenuLevel = JSpective._singleton._menuStack[JSpective._singleton._activeMenuId - 1];
-						for(let item of parentMenuLevel._items) {
-							if(item._isOpened) {
-								item._isParked = true;
+					if( this.jspective.activeMenuId > 0) {
+						let parentMenuLevel = this.jspective.menuStack[this.jspective.activeMenuId - 1];
+						for(let item of parentMenuLevel.items) {
+							if(item.isOpened) {
+								item.isParked = true;
 							}
 						}
 					}
 					
 					// Close all other opened avatars and page viewer of active menu
-					if(JSpective._singleton._uniquePageViewer._isOpened) {
-						JSpective._singleton._uniquePageViewer.closeView();
+					if(this.jspective.uniquePageViewer.isOpened) {
+						this.jspective.uniquePageViewer.closeView();
 					}
-					let activeMenuLevel = JSpective._singleton._menuStack[JSpective._singleton._activeMenuId];
+					let activeMenuLevel = this.jspective.menuStack[this.jspective.activeMenuId];
 					let i = 0;
-					for(let item of activeMenuLevel._items) {
-						if(i != this._id) {
-							if(item._isOpened) {
+					for(let item of activeMenuLevel.items) {
+						if(i != this.menuItemId) {
+							if(item.isOpened) {
 								item.closeItem();
 							}
 							// Send avatar to parking position
-							item._isParked = true;
-							item._isSelfTargeting = true;
-							item._projection._speed = 35;
-							let targetX = JSpective._singleton._virtualSpaceWidth / 2 + (i * 40);
-							let targetY = activeMenuLevel._groundLevel + 300;
-							let targetZ = JSpective._singleton._virtualSpaceDepth - (i * 30);
-							item._projection.setTargetPosition(targetX, targetY, targetZ);
+							item.isParked = true;
+							item.isSelfTargeting = true;
+							item.projection.speed = 35;
+							let targetX = this.jspective.virtualSpaceWidth / 2 + (i * 40);
+							let targetY = activeMenuLevel.groundLevel + 300;
+							let targetZ = this.jspective.virtualSpaceDepth - (i * 30);
+							item.projection.setTargetPosition(targetX, targetY, targetZ);
 						}//if
 						
 						i++
 					}//for
 					
 					// Put new submenu onto stack
-					let submenu = new MenuLevel(JSpective._singleton._activeMenuId + 1, activeMenuLevel._groundLevel - JSpective._singleton._levelHeight, this);
-					JSpective._singleton._menuStack.push(submenu);
+					let submenu = new MenuLevel(this.jspective, this.jspective.activeMenuId + 1, activeMenuLevel.groundLevel - this.jspective.levelHeight, this);
+					this.jspective.menuStack.push(submenu);
 					
 					// Move to front
 					this.openItem();
 					
 					// Request menu data from server
-					submenu.requestMenuData(this._dataUrl);
+					submenu.requestMenuData(this.dataUrl);
 					
 				} else {
 					alert("Submenu has no link set. Can't open");
-				}//if _dataUrl
+				}//if dataUrl
 				
 			} else {	
 				// Submenu is currently opened
 				
-				if(this._isSelfTargeting) {
+				if(this.isSelfTargeting) {
 					// Ignore click for now. TODO: Accept click to cancel opening
 				} else {
 					this.closeItem();
@@ -330,33 +236,34 @@ export class MenuAvatar {
 			
 			// Iterate top-down over every menu level
 			// and close all avatars (menus and pages) until the menu level of the clicked avatar is active.
-			while(JSpective._singleton._activeMenuId > this._parentMenu._id) {
-				let prevMenuLevel = JSpective._singleton._menuStack[JSpective._singleton._activeMenuId - 1];
-				for(let item of prevMenuLevel._items) {
-					if(item._isOpened) {
+			while(this.jspective.activeMenuId > this.parentMenuLevel.menuLevelId) {
+				let prevMenuLevel = this.jspective.menuStack[this.jspective.activeMenuId - 1];
+				for(let item of prevMenuLevel.items) {
+					if(item.isOpened) {
 						item.closeItem();
 					}
 				}
 			}
 		}//if isParked
 		
+		return false;
 	}
 
 
-	// Implements interface MenuItem
+	// Implements class Avatar
 	public handleMouseOver(): boolean {
-		if(!this._isOpened) {
-			this._isMouseOver = true;
-			$("div#" + this._domId).addClass("hover");
+		if(!this.isOpened) {
+			this.isMouseOver = true;
+			$("div#" + this.domId).addClass("hover");
 		}
 		return false;
 	}
 
 
-	// Implements interface MenuItem
+	// Implements class Avatar
 	public handleMouseOut(): boolean {	
-		this._isMouseOver = false;
-		$("div#" + this._domId).removeClass("hover");
+		this.isMouseOver = false;
+		$("div#" + this.domId).removeClass("hover");
 		return false;
 	}
 

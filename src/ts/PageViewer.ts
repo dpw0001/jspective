@@ -3,26 +3,32 @@
 // Copyright (c) 2007-2025 Daniel-Percy Wimpff <daniel@wimpff.de>, Germany
 // MIT License
 // ------------------------------------------------------------------
-import { JSpective } from "./JSpective.js";
+import { JSpective } from "./JSpective";
 
 export class PageViewer {
 
 	// Private members
 	// ---------------
-	// None, yet.
+	private jspective: JSpective;
 
 
 	// Public members
 	// --------------
 
-	public _id: number;
-	public _domId: string;
-	public _isOpened: boolean;
+	public pageViewerId: number;
+	public domId: string;
+	public isOpened: boolean;
 
-	constructor(id: number) {
-		this._id = id;
-		this._domId = "PageViewer_" + id;
-		this._isOpened = false;
+	constructor(jspective: JSpective, pageViewerId: number) {
+		this.jspective = jspective;
+		this.pageViewerId = pageViewerId;
+		this.domId = "PageViewer_" + pageViewerId;
+		this.isOpened = false;
+		
+		// Bind event handlers to this
+		// ---------------------------
+		this.handleClickPageViewer = this.handleClickPageViewer.bind(this);
+		this.handleClickPageViewerShadow = this.handleClickPageViewerShadow.bind(this);
 	}
 
 
@@ -43,55 +49,69 @@ export class PageViewer {
 		//});
 		
 		// Display data in PageViewer
-		//$("div#" + this._domId + "/div.page_viewer_title").empty().append(pageTitle);
-		//$("div#" + this._domId + "/div.page_viewer_content").empty().append(pageContent);
+		//$("div#" + this.domId + "/div.page_viewer_title").empty().append(pageTitle);
+		//$("div#" + this.domId + "/div.page_viewer_content").empty().append(pageContent);
 		
 		// Use to show (untouched) html in PageViewer and append close buttons
-		$("div#" + this._domId).empty().append(contentXML);
-		$("div#" + this._domId + " div.page_viewer_title").append("<div style=\"position: absolute; right: 10px; top: 40px;\">close | schließen</div>");
-		$("div#" + this._domId + " div.page_viewer_content").append("<br/><br/><div id=\"PageButtons\"> <input id=\"ButtonClosePage\" type=\"button\" value=\"Close\" /></div>");
+		$("div#" + this.domId).empty().append(contentXML);
+		$("div#" + this.domId + " div.page_viewer_title").append("<div style=\"position: absolute; right: 10px; top: 40px;\">close | schließen</div>");
+		$("div#" + this.domId + " div.page_viewer_content").append("<br/><br/><div id=\"PageButtons\"> <input id=\"ButtonClosePage\" type=\"button\" value=\"Close\" /></div>");
 		// Bind handlers for page content
-		$("div#" + this._domId + " a").on("click", null, this._domId, JSpective._singleton.handleClickAnchor);
-		$("div#" + this._domId + " div.page_viewer_title").on("click", null, this._domId, JSpective._singleton.handleClickPageViewerShadow);
-		$("div#" + this._domId + " input#ButtonClosePage").on("click", null, this._domId, JSpective._singleton.handleClickPageViewerShadow);
+		$("div#" + this.domId + " a").on("click", null, this.domId, this.jspective.handleClickAnchor);
+		$("div#" + this.domId + " div.page_viewer_title").on("click", null, this.domId, this.handleClickPageViewerShadow);
+		$("div#" + this.domId + " input#ButtonClosePage").on("click", null, this.domId, this.handleClickPageViewerShadow);
 	}
 
 
 	public openView(lastScrollTop: number): void {
-		JSpective._singleton.stopAnimation();
-		this._isOpened = true;
+		this.jspective.stopAnimation();
+		this.isOpened = true;
 		
-		$("div#" + this._domId).show();
+		$("div#" + this.domId).show();
 		
 		if(lastScrollTop != null) {
 			// Note: Property scrollTop of an element is only valid while it is visible
-			$("div#" + this._domId + " .page_viewer_content")[0].scrollTop = lastScrollTop;
+			$("div#" + this.domId + " .page_viewer_content")[0].scrollTop = lastScrollTop;
 		}
 	}
 
 
 	public closeView(): void {
-		let contentDOM = $("div#" + this._domId + " .page_viewer_content")[0];
+		let contentDOM = $("div#" + this.domId + " .page_viewer_content")[0];
 		// Note: Property scrollTop of an element is only valid while it is visible
 		let currentScrollTop = contentDOM.scrollTop;
 		
-		$("div#" + this._domId).hide();
+		$("div#" + this.domId).hide();
 		
 		// Restart current animation mode
-		JSpective._singleton.startAnimation();
+		this.jspective.startAnimation();
 		// Close all opened items of current menu
-		let activeMenuLevel = JSpective._singleton._menuStack[JSpective._singleton._activeMenuId];
-		for(let item of activeMenuLevel._items) {
-			if(item._isOpened) {
+		let activeMenuLevel = this.jspective.menuStack[this.jspective.activeMenuId];
+		for(let item of activeMenuLevel.items) {
+			if(item.isOpened) {
 				// Buffer current scroll position of viewed page
-				item._lastScrollTop = currentScrollTop;
+				item.lastScrollTop = currentScrollTop;
 				// Reset the page viewer's scroll position
 				contentDOM.scrollTop = 0;
 				
 				item.closeItem();
 			}
 		}
-		this._isOpened = false;
+		this.isOpened = false;
 	}
 
+
+	public handleClickPageViewer(event: any): boolean {
+		// Nothing to do, so far.
+		return false;
+	}
+
+
+	public handleClickPageViewerShadow(event: any): boolean {
+		this.closeView();
+		return false;
+	}
+
+
+	
 } // end class

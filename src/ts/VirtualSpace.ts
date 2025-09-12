@@ -13,18 +13,18 @@ export class VirtualSpace {
 	// Public members
 	// --------------
 
-	public _insightWidth: number;
-	public _insightHeight: number;
-	public _insightDepth: number;
-	public _insightOriginX: number;
-	public _insightOriginY: number;
-	public _insightOriginZ: number;
-	public _insightRotateX: number;
-	public _insightRotateY: number;
-	public _insightRotateZ: number;
-	public _gloVanishX: number;
-	public _gloVanishY: number;
-	public _gloVanishZ: number;
+	public insightWidth: number;
+	public insightHeight: number;
+	public insightDepth: number;
+	public insightOriginX: number;
+	public insightOriginY: number;
+	public insightOriginZ: number;
+	public insightRotateX: number;
+	public insightRotateY: number;
+	public insightRotateZ: number;
+	public gloVanishX: number;
+	public gloVanishY: number;
+	public gloVanishZ: number;
 
 
 	constructor(insightWidth: number, insightHeight: number, insightDepth: number,
@@ -32,29 +32,29 @@ export class VirtualSpace {
 				gloVanishX: number, gloVanishY: number, gloVanishZ: number) {
 		// Position and dimensions of the "in-sight region" in the "universe" of this VirtualSpace.
 		// A 3D-viewport: Only avatars inside are rendered to the user interface.
-		this._insightWidth = insightWidth;
-		this._insightHeight = insightHeight;
-		this._insightDepth = insightDepth;
-		this._insightOriginX = insightOriginX;
-		this._insightOriginY = insightOriginY;
-		this._insightOriginZ = insightOriginZ;
+		this.insightWidth = insightWidth;
+		this.insightHeight = insightHeight;
+		this.insightDepth = insightDepth;
+		this.insightOriginX = insightOriginX;
+		this.insightOriginY = insightOriginY;
+		this.insightOriginZ = insightOriginZ;
 
 		// NOTE: "outer-regions" of the virtual space are limited to the javascript variable-type let integer.
 		// IF CRITICAL - TODO ! WARNINGS and fail-saves should be implemented before avatars leave the maximum/minimum of the outer-region !
-		//this._outerRegionMin = -1000000;
-		//this._outerRegionMax = 1000000;
+		//this.outerRegionMin = -1000000;
+		//this.outerRegionMax = 1000000;
 
 		// Rotate axis to give the orientation of the in-sight region box.
-		this._insightRotateX = 0; 
-		this._insightRotateY = 0;
-		this._insightRotateZ = 0;
+		this.insightRotateX = 0; 
+		this.insightRotateY = 0;
+		this.insightRotateZ = 0;
 
 		// The general vanishing point (Fluchtpunkt) for 2D-projections of in-sight avatars.
 		// (Can be overwritten for individual avatars.)
 		// Relative to the origin and orientation of the in-sight viewport.
-		this._gloVanishX = gloVanishX;
-		this._gloVanishY = gloVanishY;
-		this._gloVanishZ = gloVanishZ;
+		this.gloVanishX = gloVanishX;
+		this.gloVanishY = gloVanishY;
+		this.gloVanishZ = gloVanishZ;
 	}
 
 

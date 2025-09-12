@@ -3,7 +3,7 @@
 // Copyright (c) 2007-2025 Daniel-Percy Wimpff <daniel@wimpff.de>, Germany
 // MIT License
 // ------------------------------------------------------------------
-import { JSpective } from "./JSpective.js";
+import { EnumAnimationMode, EnumMenuItemType } from "./Enums.js";
 import { MenuItemRecord } from "./MenuItemRecord.js";
 
 export class MenuItemRecords {
@@ -16,11 +16,11 @@ export class MenuItemRecords {
 	// Public members
 	// --------------
 
-	public _entries: any; //Array<MenuItemRecord>;
+	public entries: Array<MenuItemRecord>;
 
 
 	constructor() {
-		this._entries = new Array();
+		this.entries = new Array();
 	}
 
 
@@ -32,14 +32,14 @@ export class MenuItemRecords {
 	// --------------
 
 	public addMenuItemRecord(menuItemRecord: MenuItemRecord): void {
-		this._entries.push(menuItemRecord);
+		this.entries.push(menuItemRecord);
 	}
 
 
-	public addEntry(itemType: string, label: string, hideLabel: boolean, contentUrl: string,
-				width: number, height: number, imageUrl: string, defaultMenuMode: string|null): void {
+	public addEntry(itemType: EnumMenuItemType, label: string, hideLabel: boolean, contentUrl: string,
+				width: number, height: number, imageUrl: string, defaultAnimationMode: EnumAnimationMode|null): void {
 		
-		let menuItemRecord = new MenuItemRecord(itemType, label, hideLabel, contentUrl, width, height, imageUrl, defaultMenuMode);
+		let menuItemRecord = new MenuItemRecord(itemType, label, hideLabel, contentUrl, width, height, imageUrl, defaultAnimationMode);
 		this.addMenuItemRecord(menuItemRecord);
 	}
 
@@ -72,7 +72,6 @@ export class MenuItemRecords {
 						imageWidth = parseInt(attrWidth);
 					}
 					
-					
 					let attrHeight: string|null = imgTag.getAttribute("width");
 					if(attrHeight != null) {
 						imageHeight = parseInt(attrHeight);
@@ -83,16 +82,16 @@ export class MenuItemRecords {
 			if( $(this).is("submenu") ) {
 				let modeAttrVal = $(this).attr("mode");
 				if(modeAttrVal == "shuffle") {
-					self.addEntry(JSpective._singleton._menuItemTypeMenu, label, false, contentUrl, imageWidth, imageHeight, imageUrl, "shuffle");
+					self.addEntry(EnumMenuItemType.menu, label, false, contentUrl, imageWidth, imageHeight, imageUrl, EnumAnimationMode.shuffle);
 				} else {
-					self.addEntry(JSpective._singleton._menuItemTypeMenu, label, false, contentUrl, imageWidth, imageHeight, imageUrl, "wheel");
+					self.addEntry(EnumMenuItemType.menu, label, false, contentUrl, imageWidth, imageHeight, imageUrl, EnumAnimationMode.wheel);
 				}
 				
 			} else if( $(this).is("page") ) {
-				self.addEntry(JSpective._singleton._menuItemTypePage, label, false, contentUrl, imageWidth, imageHeight, imageUrl, null);
+				self.addEntry(EnumMenuItemType.page, label, false, contentUrl, imageWidth, imageHeight, imageUrl, null);
 				
 			} else if( $(this).is("link") ) {
-				self.addEntry(JSpective._singleton._menuItemTypeLink, label, false, contentUrl, imageWidth, imageHeight, imageUrl, null);
+				self.addEntry(EnumMenuItemType.link, label, false, contentUrl, imageWidth, imageHeight, imageUrl, null);
 			}
 		});//each
 	}

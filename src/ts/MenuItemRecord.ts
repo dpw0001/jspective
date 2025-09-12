@@ -2,6 +2,8 @@
 // Author: Daniel-Percy Wimpff <daniel@wimpff.de>
 // Copyright (c) 2007-2025 Daniel-Percy Wimpff <daniel@wimpff.de>, Germany
 // MIT License
+import { EnumAnimationMode, EnumMenuItemType } from "./Enums";
+
 // ------------------------------------------------------------------
 export class MenuItemRecord {
 
@@ -13,26 +15,26 @@ export class MenuItemRecord {
 	// Public members
 	// --------------
 
-	public _itemType: string; // One of: "menu", "page", "link"
-	public _label: string;
-	public _hideLabel: boolean;
-	public _contentUrl: string;
-	public _width: number;
-	public _height: number;
-	public _imageUrl: string;
-	public _defaultMenuMode: string|null; // For submenus - one of: "wheel", "shuffle"
+	public itemType: EnumMenuItemType;
+	public label: string;
+	public hideLabel: boolean;
+	public contentUrl: string;
+	public width: number;
+	public height: number;
+	public imageUrl: string;
+	public defaultAnimationMode: EnumAnimationMode|null;
 
 
-	constructor(itemType: string, label: string, hideLabel: boolean, contentUrl: string,
-				width: number, height: number, imageUrl: string, defaultMenuMode: string|null) {
-		this._itemType = itemType;
-		this._label = label;
-		this._hideLabel = hideLabel;
-		this._contentUrl = contentUrl;
-		this._width = width;
-		this._height = height;
-		this._imageUrl = imageUrl;
-		this._defaultMenuMode = defaultMenuMode;
+	constructor(itemType: EnumMenuItemType, label: string, hideLabel: boolean, contentUrl: string,
+				width: number, height: number, imageUrl: string, defaultAnimationMode: EnumAnimationMode|null) {
+		this.itemType = itemType;
+		this.label = label;
+		this.hideLabel = hideLabel;
+		this.contentUrl = contentUrl;
+		this.width = width;
+		this.height = height;
+		this.imageUrl = imageUrl;
+		this.defaultAnimationMode = defaultAnimationMode;
 	}
 
 
