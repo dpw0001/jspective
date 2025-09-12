@@ -3,8 +3,8 @@
 //           - A playful experimental toy and demo project
 // ------------------------------------------------------------------
 // Author: Daniel-Percy Wimpff <daniel@wimpff.de>
-// Version: 0.3.30
-// Release date: 11.09.2025
+// Version: 0.4.0
+// Release date: 12.09.2025
 // Project home: http://www.softwareagent.de
 // ------------------------------------------------------------------
 // MIT License
