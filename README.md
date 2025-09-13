@@ -3,7 +3,7 @@ JSpective is a minimalistic 3D engine implementing a vanishing point projection.
 
 It is based solely on standard text-based web technologies: JavaScript, HTML, CSS.
 
-So web browsers can view spatal web applications without plug-ins
+So web browsers can view spatial web applications without plug-ins
 and the front-end is still as text-based as any common webpage.
 
 It is a toy project just for the fun and art.
@@ -16,12 +16,18 @@ JSpective is free software under the <a target="_blank" href="https://www.tldrle
 
 ## Install
 
-To deploy JSpective on your local machine or on a webserver
-you have two alternative options:
+JSpective can be deployed onto webservers.
+
+Starting JSective on a local machine: Since the program is encapsulated as JavaScript modules,
+locally opening the file index.html directly from the filesystem will be denied by your webbrowser
+(due to modern CORS security policies in browsers).
+
+Thus, you will need to deploy JSpective on a webserver - be it local or remote - to deliver
+the JSpective files for your webbrowser.
 
 ### Deploy from download
 1. [Download the Zip-file](https://github.com/dpw0001/jspective/archive/refs/heads/main.zip) from Github: 
-2. Unzip and move the content of subdirectory "src" to a target directory of your choice.
+2. Unzip and move the content of subdirectory "src" to a webserver into a target directory of your choice.
 3. Open "index.html" in a webbrowser.
 
 ### ... or deploy using git
@@ -39,11 +45,9 @@ you have two alternative options:
 	echo "/src/*" > .git/info/sparse-checkout
 	git checkout main
 	```
-4. Move the "src" directory to a target directory of your choice
-	```
-	mv src MY_NEW_DIR_NAME
-	```
-5. Open file "MY_NEW_DIR_NAME/index.html" in a webbrowser.
+4. Copy the content of the "src" directory to a webserver into a target directory of your choice
+
+5. Open file "index.html" in a webbrowser.
 
 ## Dependencies
 As its only library dependency, JSpective currently uses <a target="_blank" href="https://jquery.com">jQuery</a>.
