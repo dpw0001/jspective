@@ -1,0 +1,29 @@
+{
+  "name": "@dpw0001/jspective",
+  "version": "0.4.0",
+  "description": "A minimalistic 3D API solely based on TypeScript, HTML and CSS. A playful toy and demo project.",
+  "keywords": [],
+  "homepage": "https://www.softwareagent.de/jspective/",
+  "bugs": {
+    "url": "https://github.com/dpw0001/jspective/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dpw0001/jspective.git"
+  },
+  "license": "MIT",
+  "author": "Daniel-Percy Wimpff <daniel@wimpff.de",
+  "type": "es2015",
+  "main": "src/index.html",
+  "files": [
+    "js", "ts", "css", "menus", "pages", "index.html"
+  ],
+  "directories": {
+    "doc": "doc",
+    "src": "src",
+    "licenses": "licenses"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
