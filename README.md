@@ -18,7 +18,7 @@ JSpective is free software under the <a target="_blank" href="https://www.tldrle
 
 JSpective can be deployed onto webservers.
 
-Starting JSpective on a local machine: Since the program is encapsulated as JavaScript modules,
+Starting JSpective on a local machine: Since the program is encapsulated in JavaScript modules,
 locally opening the file index.html directly from the filesystem will be denied by your webbrowser
 (due to modern CORS security policies in browsers).
 
