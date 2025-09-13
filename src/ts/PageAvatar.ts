@@ -34,7 +34,7 @@ export class PageAvatar extends Avatar implements IMenuItem {
 	constructor(jspective: JSpective, menuItemId: number, isExternal: boolean, label: string, hideLabel: boolean, dataUrl: string,
 				parentMenuLevel: MenuLevel, width: number, height: number, baseCssClass: string, imageUrl: string) {
 		
-		let domId = "Avatar_" + parentMenuLevel.menuLevelId + "_" + menuItemId;
+		let domId = "Avatar_" + parentMenuLevel.menuLevelIndex + "_" + menuItemId;
 		super(jspective, domId, label, hideLabel, width, height, baseCssClass, imageUrl);
 		
 		this.menuItemId = menuItemId;
@@ -119,7 +119,7 @@ export class PageAvatar extends Avatar implements IMenuItem {
 							this.jspective.uniquePageViewer.closeView();
 						}
 						
-						let activeMenuLevel = this.jspective.menuStack[this.jspective.activeMenuId];
+						let activeMenuLevel = this.jspective.menuStack.getActiveMenuLevel();
 						let i = 0;
 						for(let item of activeMenuLevel.items) {
 							if(i != this.menuItemId && item.isOpened) {
@@ -172,8 +172,8 @@ export class PageAvatar extends Avatar implements IMenuItem {
 			
 			// Iterate top-down over every menu level
 			// and close all open menuAvatars (and pages) until the menu level of the clicked avatar is active.
-			while(this.jspective.activeMenuId > this.parentMenuLevel.menuLevelId) {
-				let prevMenuLevel = this.jspective.menuStack[this.jspective.activeMenuId - 1];
+			while(this.jspective.menuStack.activeMenuLevelIndex > this.parentMenuLevel.menuLevelIndex) {
+				let prevMenuLevel = this.jspective.menuStack.getPreviousMenuLevel();
 				let i = 0;
 				for(let item of prevMenuLevel.items) {
 					if(item.isOpened) {

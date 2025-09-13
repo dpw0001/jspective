@@ -20,5 +20,6 @@ export declare class MenuAvatar extends Avatar implements IMenuItem {
     handleClick(): boolean;
     handleMouseOver(): boolean;
     handleMouseOut(): boolean;
+    handleKeyUp(event: any): boolean;
 }
 //# sourceMappingURL=MenuAvatar.d.ts.map

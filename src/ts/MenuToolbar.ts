@@ -161,25 +161,28 @@ export class MenuToolbar extends Avatar {
 
 
 	public warpToActiveMenu(): void {
-		let posX = this.jspective.menuStack[this.jspective.activeMenuId].menuAvatar.projection.posX;
-		let posY = this.jspective.menuStack[this.jspective.activeMenuId].menuAvatar.projection.posY - this.jspective.uniqueMenuToolbar.projection.height - 15;
-		let posZ = this.jspective.menuStack[this.jspective.activeMenuId].menuAvatar.projection.posZ;
-		this.projection.set3DPosition(posX, posY, posZ);
+		let menuAvatar = this.jspective.menuStack.getActiveMenuLevel().menuAvatar;
+		if(menuAvatar != null) {
+			let posX = menuAvatar.projection.posX;
+			let posY = menuAvatar.projection.posY - this.jspective.uniqueMenuToolbar.projection.height - 15;
+			let posZ = menuAvatar.projection.posZ;
+			this.projection.set3DPosition(posX, posY, posZ);
+		}
 	}
 
 
 	public handleMenuToolAxis(event: any): boolean {
-		let jspective = this.jspective;
-		if(jspective.menuStack[jspective.activeMenuId].isHorizontal == 0) {
-			jspective.menuStack[jspective.activeMenuId].isHorizontal = 1;
-			for(let item of jspective.menuStack[jspective.activeMenuId].items) {
+		let activeMenuLevel = this.jspective.menuStack.getActiveMenuLevel();
+		if(!activeMenuLevel.isHorizontal) {
+			activeMenuLevel.isHorizontal = true;
+			for(let item of activeMenuLevel.items) {
 				// Position vanishing point slighted to the left/right
 				item.projection.vanishX = item.projection.vanishX + 80;
 			}//for
 			
 		} else {
-			jspective.menuStack[jspective.activeMenuId].isHorizontal = 0;
-			for(let item of jspective.menuStack[jspective.activeMenuId].items) {
+			activeMenuLevel.isHorizontal = false;
+			for(let item of activeMenuLevel.items) {
 				item.projection.vanishX = item.projection.vanishX - 80;
 			}//for
 		}//if
@@ -189,23 +192,23 @@ export class MenuToolbar extends Avatar {
 
 
 	public handleMenuToolClockwise(event: any): boolean {
-		let jspective = this.jspective;
-		if(jspective.menuStack[jspective.activeMenuId].clockwise == 1) {
-			jspective.menuStack[jspective.activeMenuId].clockwise = -1;
+		let activeMenuLevel = this.jspective.menuStack.getActiveMenuLevel();
+		if(activeMenuLevel.clockwise == 1) {
+			activeMenuLevel.clockwise = -1;
 		} else {
-			jspective.menuStack[jspective.activeMenuId].clockwise = 1;
+			activeMenuLevel.clockwise = 1;
 		}
 		return false;
 	}
 
 
 	public handleMenuToolMode(event: any): boolean {
-		let jspective = this.jspective;
-		if(jspective.menuStack[jspective.activeMenuId].animationMode == EnumAnimationMode.wheel) {
-			jspective.menuStack[jspective.activeMenuId].animationMode = EnumAnimationMode.shuffle;
-			jspective.menuStack[jspective.activeMenuId].reshuffle();
+		let activeMenuLevel = this.jspective.menuStack.getActiveMenuLevel();
+		if(activeMenuLevel.animationMode == EnumAnimationMode.wheel) {
+			activeMenuLevel.animationMode = EnumAnimationMode.shuffle;
+			activeMenuLevel.reshuffle();
 		} else {
-			jspective.menuStack[jspective.activeMenuId].animationMode = EnumAnimationMode.wheel;
+			activeMenuLevel.animationMode = EnumAnimationMode.wheel;
 		}
 		return false;
 	}

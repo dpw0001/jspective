@@ -2,7 +2,7 @@
 // Author: Daniel-Percy Wimpff <daniel@wimpff.de>
 // Copyright (c) 2007-2025 Daniel-Percy Wimpff <daniel@wimpff.de>, Germany
 // MIT License
-import { EnumAnimationMode, EnumMenuItemType } from "./Enums";
+import { EnumAnimationMode, EnumMenuItemType } from "./Enums.js";
 
 // ------------------------------------------------------------------
 export class MenuItemRecord {

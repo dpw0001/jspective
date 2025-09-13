@@ -1,4 +1,4 @@
-import { MenuLevel } from "./MenuLevel";
+import { MenuLevel } from "./MenuLevel.js";
 export interface IMenuItem {
     menuItemId: number;
     dataUrl: string;

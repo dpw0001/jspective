@@ -1,6 +1,7 @@
 import { MenuToolbar } from './MenuToolbar.js';
 import { PageViewer } from './PageViewer.js';
 import { MenuItemRecords } from './MenuItemRecords.js';
+import { MenuStack } from './MenuStack.js';
 export declare class JSpective {
     enableDebug: boolean;
     mainMenuUrl: string;
@@ -16,12 +17,11 @@ export declare class JSpective {
     initVanishZ: number;
     defaultSpeed: number;
     defaultFontSize: number;
-    mainInterval: number | undefined;
+    animationIntervalId: number | undefined;
     intervalPeriod: number;
-    openMenuInterval: number | undefined;
+    openMenuIntervalId: number | undefined;
     openMenuPeriod: number;
-    menuStack: any;
-    activeMenuId: number;
+    menuStack: MenuStack;
     tempAnimationStack: Array<MenuToolbar>;
     uniquePageViewer: PageViewer;
     uniqueMenuToolbar: MenuToolbar;
@@ -34,7 +34,6 @@ export declare class JSpective {
     handleClickAnchor(event: any): boolean;
     handleClickBackground(event: any): boolean;
     handleOnResizeViewport(event: any): void;
-    keyPress(e: any): void;
     startAnimation(): void;
     handleAnimationInterval(): void;
     stopAnimation(): void;

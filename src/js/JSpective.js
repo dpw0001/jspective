@@ -3,8 +3,8 @@
 //           - A playful experimental toy and demo project
 // ------------------------------------------------------------------
 // Author: Daniel-Percy Wimpff <daniel@wimpff.de>
-// Version: 0.3.30
-// Release date: 11.09.2025
+// Version: 0.4.1
+// Release date: 13.09.2025
 // Project home: http://www.softwareagent.de
 // ------------------------------------------------------------------
 // MIT License
@@ -33,6 +33,7 @@ import { MenuToolbar } from './MenuToolbar.js';
 import { MenuLevel } from './MenuLevel.js';
 import { PageViewer } from './PageViewer.js';
 import { EnumAnimationMode } from './Enums.js';
+import { MenuStack } from './MenuStack.js';
 export class JSpective {
     constructor() {
         // Private members
@@ -54,13 +55,12 @@ export class JSpective {
         this.initVanishZ = -210;
         this.defaultSpeed = 5;
         this.defaultFontSize = 12;
-        this.mainInterval = undefined;
+        this.animationIntervalId = undefined;
         this.intervalPeriod = 150;
-        this.openMenuInterval = undefined;
+        this.openMenuIntervalId = undefined;
         this.openMenuPeriod = 150;
         this.uniquePageViewer = new PageViewer(this, 0);
-        this.menuStack = new Array();
-        this.activeMenuId = 0;
+        this.menuStack = new MenuStack();
         this.tempAnimationStack = new Array();
         this.uniqueMenuToolbar = new MenuToolbar(this, 0, "Toolbar", 130, 55, "transparent", "var(--color-teal)", "var(--color-grey)", "");
         this.uniqueMenuToolbar.projection.vanishX = 50;
@@ -120,8 +120,9 @@ export class JSpective {
         }
     }
     loadInitialMenu(mainMenuUrl, menuItemRecords) {
-        let mainMenu = new MenuLevel(this, this.activeMenuId, this.groundLevelY, null);
-        this.menuStack.push(mainMenu);
+        let mainMenu = new MenuLevel(this, this.groundLevelY, null);
+        this.menuStack.addMenuLevel(mainMenu);
+        this.menuStack.increaseActiveMenuLevel();
         if (menuItemRecords != null) {
             mainMenu.populate(menuItemRecords);
             mainMenu.finishedLoading();
@@ -133,11 +134,11 @@ export class JSpective {
             mainMenu.requestMenuData(this.mainMenuUrl);
             // Retry interval: show avatars of submenu if request has finished (MenuLevel.isLoaded)
             // (Release interval in MenuLevel.finishedLoading() and on request error and timeout event handlers)
-            this.openMenuInterval = window.setInterval(this.handleOpenMenuInterval, this.openMenuPeriod);
+            this.openMenuIntervalId = window.setInterval(this.handleOpenMenuInterval, this.openMenuPeriod);
         }
     }
     handleOpenMenuInterval() {
-        this.menuStack[this.activeMenuId].finishedLoading();
+        this.menuStack.getActiveMenuLevel().finishedLoading();
     }
     logConfig() {
         console.debug("JSpective - current config:");
@@ -152,7 +153,7 @@ export class JSpective {
         console.debug("  defaultSpeed = " + this.defaultSpeed);
         console.debug("  defaultFontSize = " + this.defaultFontSize);
         console.debug("  intervalPeriod = " + this.intervalPeriod);
-        console.debug("  sopenMenuPeriod = " + this.openMenuPeriod);
+        console.debug("  openMenuPeriod = " + this.openMenuPeriod);
     }
     handleClickAnchor(event) {
         let url = event.currentTarget.attributes["href"].nodeValue;
@@ -170,19 +171,20 @@ export class JSpective {
             this.uniquePageViewer.closeView();
             ret = false;
         }
-        if (this.menuStack[this.activeMenuId].animationMode == EnumAnimationMode.wheel) {
+        let activeMenuLevel = this.menuStack.getActiveMenuLevel();
+        if (activeMenuLevel.animationMode == EnumAnimationMode.wheel) {
             // Switch wheel direction
-            if (this.menuStack[this.activeMenuId].clockwise == 1) {
-                this.menuStack[this.activeMenuId].clockwise = -1;
+            if (activeMenuLevel.clockwise == 1) {
+                activeMenuLevel.clockwise = -1;
             }
             else {
-                this.menuStack[this.activeMenuId].clockwise = 1;
+                activeMenuLevel.clockwise = 1;
             }
             ret = false;
         }
-        if (this.menuStack[this.activeMenuId].animationMode == EnumAnimationMode.shuffle) {
+        if (activeMenuLevel.animationMode == EnumAnimationMode.shuffle) {
             // Shuffle avatars of active menu
-            this.menuStack[this.activeMenuId].reshuffle();
+            activeMenuLevel.reshuffle();
             ret = false;
         }
         return ret;
@@ -199,28 +201,23 @@ export class JSpective {
             console.debug("Viewport height: " + this.viewportHeight);
         }
     }
-    keyPress(e) {
-        if (e.key === "Escape") {
-            // TODO: Implement handling escape key
-        }
-    }
     //Helper functions for animation interval control
     // -----------------------------------------------
     startAnimation() {
-        if (this.mainInterval == undefined) {
-            this.mainInterval = window.setInterval(this.handleAnimationInterval, this.intervalPeriod);
+        if (this.animationIntervalId == undefined) {
+            this.animationIntervalId = window.setInterval(this.handleAnimationInterval, this.intervalPeriod);
         }
         else {
             alert("Application misbehaviour: Trying to start second animation interval!");
         }
     }
     handleAnimationInterval() {
-        this.menuStack[this.activeMenuId].animate();
+        this.menuStack.getActiveMenuLevel().animate();
     }
     stopAnimation() {
-        if (this.mainInterval != undefined) {
-            window.clearInterval(this.mainInterval);
-            this.mainInterval = undefined; // Needs manual clearance for "exists-checks"
+        if (this.animationIntervalId != undefined) {
+            window.clearInterval(this.animationIntervalId);
+            this.animationIntervalId = undefined; // Needs manual clearance for "exists-checks"
         }
     }
 } // end class

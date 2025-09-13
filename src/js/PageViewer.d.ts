@@ -1,4 +1,4 @@
-import { JSpective } from "./JSpective";
+import { JSpective } from "./JSpective.js";
 export declare class PageViewer {
     private jspective;
     pageViewerId: number;
@@ -10,5 +10,6 @@ export declare class PageViewer {
     closeView(): void;
     handleClickPageViewer(event: any): boolean;
     handleClickPageViewerShadow(event: any): boolean;
+    handleKeyUp(event: any): boolean;
 }
 //# sourceMappingURL=PageViewer.d.ts.map

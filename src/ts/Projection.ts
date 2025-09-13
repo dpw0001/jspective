@@ -3,7 +3,7 @@
 // Copyright (c) 2007-2025 Daniel-Percy Wimpff <daniel@wimpff.de>, Germany
 // MIT License
 
-import { IProjectionUser } from "./IProjectionUser";
+import { IProjectionUser } from "./IProjectionUser.js";
 
 // ------------------------------------------------------------------
 export class Projection {

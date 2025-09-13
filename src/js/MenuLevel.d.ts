@@ -6,7 +6,7 @@ import { MenuItemRecords } from "./MenuItemRecords.js";
 import { PageAvatar } from "./PageAvatar.js";
 export declare class MenuLevel {
     private jspective;
-    menuLevelId: number;
+    menuLevelIndex: number;
     items: Array<MenuAvatar | PageAvatar>;
     isLoaded: boolean;
     groundLevel: number;
@@ -19,7 +19,7 @@ export declare class MenuLevel {
     wheelCenterX: number;
     wheelCenterY: number;
     wheelCenterZ: number;
-    constructor(jspective: JSpective, menuLevelId: number, groundLevel: number, menuAvatar: MenuAvatar | null);
+    constructor(jspective: JSpective, groundLevel: number, menuAvatar: MenuAvatar | null);
     populate(menuItemRecords: MenuItemRecords): void;
     calcWheelRadius(): void;
     addMenuItem(menuItemId: number, menuItemRecord: MenuItemRecord): void;

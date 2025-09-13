@@ -1,4 +1,4 @@
-import { EnumAnimationMode, EnumMenuItemType } from "./Enums";
+import { EnumAnimationMode, EnumMenuItemType } from "./Enums.js";
 export declare class MenuItemRecord {
     itemType: EnumMenuItemType;
     label: string;

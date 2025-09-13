@@ -34,7 +34,7 @@ export class MenuAvatar extends Avatar implements IMenuItem {
 	constructor(jspective: JSpective, menuItemId: number, label: string, hideLabel: boolean, dataUrl: string, parentMenuLevel: MenuLevel,
 				width: number, height: number, baseCssClass: string, imageUrl: string, defaultAnimationMode: EnumAnimationMode) {
 		
-		let domId = "Avatar_" + parentMenuLevel.menuLevelId + "_" + menuItemId;
+		let domId = "Avatar_" + parentMenuLevel.menuLevelIndex + "_" + menuItemId;
 		super(jspective, domId, label, hideLabel, width, height, baseCssClass, imageUrl);
 		
 		this.menuItemId = menuItemId;
@@ -54,6 +54,7 @@ export class MenuAvatar extends Avatar implements IMenuItem {
 		//this.handleClick = this.handleClick.bind(this);
 		//this.handleMouseOver = this.handleMouseOver.bind(this);
 		//this.handleMouseOut = this.handleMouseOut.bind(this);
+		this.handleKeyUp = this.handleKeyUp.bind(this);
 		
 		this.createDOM();
 	}
@@ -70,11 +71,11 @@ export class MenuAvatar extends Avatar implements IMenuItem {
 	public reachedTarget(): void {
 		if(this.isOpened) {
 			// Switch to next menu level (exactly now on menu avatars arrival!)
-			this.jspective.activeMenuId = this.jspective.activeMenuId + 1;
+			this.jspective.menuStack.increaseActiveMenuLevel();
 			
 			// Retry interval: show avatars of submenu if request has finished (MenuLevel.isLoaded)
 			// (Release interval in MenuLevel.finishedLoading() and on request error and timeout event handlers)
-			this.jspective.openMenuInterval = window.setInterval(this.jspective.handleOpenMenuInterval, this.jspective.openMenuPeriod);
+			this.jspective.openMenuIntervalId = window.setInterval(this.jspective.handleOpenMenuInterval, this.jspective.openMenuPeriod);
 			
 			//position menu toolbar
 			this.jspective.uniqueMenuToolbar.warpToActiveMenu();
@@ -91,9 +92,11 @@ export class MenuAvatar extends Avatar implements IMenuItem {
 		this.isSelfTargeting = true;
 		this.projection.speed = 35;
 		let targetX = -100;
-		let targetY = (this.jspective.menuStack[this.jspective.activeMenuId].groundLevel) - (this.jspective.levelHeight * 0.8);
+		let targetY = (this.jspective.menuStack.getActiveMenuLevel().groundLevel) - (this.jspective.levelHeight * 0.8);
 		let targetZ = 0;
 		this.projection.setTargetPosition(targetX, targetY, targetZ);
+		
+		document.addEventListener('keyup', this.handleKeyUp);
 		
 		$("div#" + this.domId).addClass("opened");
 	}
@@ -103,7 +106,9 @@ export class MenuAvatar extends Avatar implements IMenuItem {
 	public closeItem(): void {
 		this.isMouseOver = false; //free from mouse over effects
 		
-		let activeMenuLevel = this.jspective.menuStack[this.jspective.activeMenuId];
+		document.removeEventListener('keyup', this.handleKeyUp, false);
+		
+		let activeMenuLevel = this.jspective.menuStack.getActiveMenuLevel();
 		
 		// Unload menu
 		activeMenuLevel.isLoaded = false;
@@ -117,13 +122,13 @@ export class MenuAvatar extends Avatar implements IMenuItem {
 		
 		//---------- ACTIVE LEVEL SWITCH ---------------------------------------------------
 		// Drop menu from stack
-		this.jspective.menuStack.pop();
+		this.jspective.menuStack.dropMenuLevel();
 		// Decrease menu level count
-		this.jspective.activeMenuId = this.jspective.activeMenuId - 1;
+		//this.jspective.activeMenuId = this.jspective.activeMenuId - 1;
 		//-----------------------------------------------------------------------------------
 		
 		// Move toolbar to decreased level
-		if(this.jspective.activeMenuId > 0) {
+		if(this.jspective.menuStack.activeMenuLevelIndex > 0) {
 			this.jspective.uniqueMenuToolbar.warpToActiveMenu();
 		} else {
 			// Init to main menu level
@@ -136,7 +141,7 @@ export class MenuAvatar extends Avatar implements IMenuItem {
 		this.isSelfTargeting = false;
 		$("div#" + this.domId).removeClass("opened");
 		
-		let newActiveMenuLevel = this.jspective.menuStack[this.jspective.activeMenuId];
+		let newActiveMenuLevel = this.jspective.menuStack.getActiveMenuLevel();
 		let i = 0;
 		for(let item of newActiveMenuLevel.items) {
 			// Free avatars of reactivated menu from parking position
@@ -154,9 +159,9 @@ export class MenuAvatar extends Avatar implements IMenuItem {
 		}
 		
 		// If exists, free parent menu avatar of reactivated menu
-		if(this.jspective.activeMenuId > 0) {
-			let parentMenuLevel = this.jspective.menuStack[this.jspective.activeMenuId - 1];
-			for(let item of parentMenuLevel.items) {
+		if(this.jspective.menuStack.activeMenuLevelIndex > 0) {
+			let prevMenuLevel = this.jspective.menuStack.getPreviousMenuLevel();
+			for(let item of prevMenuLevel.items) {
 				if(item.isOpened) {
 					item.isParked = false;
 				}
@@ -174,9 +179,9 @@ export class MenuAvatar extends Avatar implements IMenuItem {
 				// Menu avatar is clicked to be opened. Make a request to server to fetch content.
 				if(this.dataUrl.length > 0) {
 					// Park the parent menu avatar of current menu, if exists
-					if( this.jspective.activeMenuId > 0) {
-						let parentMenuLevel = this.jspective.menuStack[this.jspective.activeMenuId - 1];
-						for(let item of parentMenuLevel.items) {
+					if( this.jspective.menuStack.activeMenuLevelIndex > 0) {
+						let prevMenuLevel = this.jspective.menuStack.getPreviousMenuLevel();
+						for(let item of prevMenuLevel.items) {
 							if(item.isOpened) {
 								item.isParked = true;
 							}
@@ -187,7 +192,7 @@ export class MenuAvatar extends Avatar implements IMenuItem {
 					if(this.jspective.uniquePageViewer.isOpened) {
 						this.jspective.uniquePageViewer.closeView();
 					}
-					let activeMenuLevel = this.jspective.menuStack[this.jspective.activeMenuId];
+					let activeMenuLevel = this.jspective.menuStack.getActiveMenuLevel();
 					let i = 0;
 					for(let item of activeMenuLevel.items) {
 						if(i != this.menuItemId) {
@@ -208,14 +213,14 @@ export class MenuAvatar extends Avatar implements IMenuItem {
 					}//for
 					
 					// Put new submenu onto stack
-					let submenu = new MenuLevel(this.jspective, this.jspective.activeMenuId + 1, activeMenuLevel.groundLevel - this.jspective.levelHeight, this);
-					this.jspective.menuStack.push(submenu);
+					let submenuLevel = new MenuLevel(this.jspective, activeMenuLevel.groundLevel - this.jspective.levelHeight, this);
+					this.jspective.menuStack.addMenuLevel(submenuLevel);
 					
 					// Move to front
 					this.openItem();
 					
 					// Request menu data from server
-					submenu.requestMenuData(this.dataUrl);
+					submenuLevel.requestMenuData(this.dataUrl);
 					
 				} else {
 					alert("Submenu has no link set. Can't open");
@@ -236,8 +241,8 @@ export class MenuAvatar extends Avatar implements IMenuItem {
 			
 			// Iterate top-down over every menu level
 			// and close all avatars (menus and pages) until the menu level of the clicked avatar is active.
-			while(this.jspective.activeMenuId > this.parentMenuLevel.menuLevelId) {
-				let prevMenuLevel = this.jspective.menuStack[this.jspective.activeMenuId - 1];
+			while(this.jspective.menuStack.activeMenuLevelIndex > this.parentMenuLevel.menuLevelIndex) {
+				let prevMenuLevel = this.jspective.menuStack.getPreviousMenuLevel();
 				for(let item of prevMenuLevel.items) {
 					if(item.isOpened) {
 						item.closeItem();
@@ -267,4 +272,17 @@ export class MenuAvatar extends Avatar implements IMenuItem {
 		return false;
 	}
 
+
+	public handleKeyUp(event: any): boolean {
+		// FIXME: This closes the menu avatar (respectively reactivates its menu level), although the page viewer was closed via escape-key.
+//		if(event.key === "Escape" && this.isOpened) {
+//			let activeMenuLevelIndex = this.jspective.menuStack.activeMenuLevelIndex;
+//			let parentMenuLevelIndex = this.parentMenuLevel.menuLevelIndex;
+//			if(parentMenuLevelIndex == activeMenuLevelIndex - 1) {
+//				this.closeItem();
+//			}
+//		}
+		
+		return false;
+	}
 } // end class

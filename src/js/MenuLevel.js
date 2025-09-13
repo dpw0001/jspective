@@ -8,9 +8,9 @@ import { MenuAvatar } from "./MenuAvatar.js";
 import { MenuItemRecords } from "./MenuItemRecords.js";
 import { PageAvatar } from "./PageAvatar.js";
 export class MenuLevel {
-    constructor(jspective, menuLevelId, groundLevel, menuAvatar) {
+    constructor(jspective, groundLevel, menuAvatar) {
         this.jspective = jspective;
-        this.menuLevelId = menuLevelId;
+        this.menuLevelIndex = -1;
         this.items = new Array(); // Container for objects that apply to interface MenuItem.
         this.isLoaded = false;
         this.groundLevel = groundLevel;
@@ -106,11 +106,11 @@ export class MenuLevel {
                 self.populate(menuItemRecords);
             },
             error: function (xmlHttpReq, errStr, exceptionObj) {
-                window.clearInterval(this.jspective.openMenuInterval);
+                window.clearInterval(this.jspective.openMenuIntervalId);
                 alert("Error: Failed to fetch menu data from server. (Message: " + errStr + ")");
             }
             //			, timeout: function(xmlHttpReq: any, errStr: any, exceptionObj: any){
-            //				window.clearInterval(this.jspective.openMenuInterval);
+            //				window.clearInterval(this.jspective.openMenuIntervalId);
             //				alert("Timeout: Failed to fetch menu data from server. (Message: " + errStr + ")");
             //			}
         });
@@ -119,8 +119,8 @@ export class MenuLevel {
         // Menu data may not be available until asynchron request finishes
         let success = false;
         if (this.isLoaded) {
-            if (this.jspective.openMenuInterval != undefined) {
-                window.clearInterval(this.jspective.openMenuInterval); // Also cleared in request timeout and error handlers for save fallback.
+            if (this.jspective.openMenuIntervalId != undefined) {
+                window.clearInterval(this.jspective.openMenuIntervalId); // Also cleared in request timeout and error handlers for save fallback.
             }
             for (let item of this.items) {
                 item.showDOM();
@@ -175,7 +175,7 @@ export class MenuLevel {
             return; // !
         }
         else {
-            console.error("MenuLevel with menuLevelId \"" + this.menuLevelId + "\" has unknown animationMode: \"" + this.animationMode + "\"");
+            console.error("MenuLevel with menuLevelId \"" + this.menuLevelIndex + "\" has unknown animationMode: \"" + this.animationMode + "\"");
         }
     }
     // LINEAR animation for menu items

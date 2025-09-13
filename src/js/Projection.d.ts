@@ -1,4 +1,4 @@
-import { IProjectionUser } from "./IProjectionUser";
+import { IProjectionUser } from "./IProjectionUser.js";
 export declare class Projection {
     parent: IProjectionUser;
     posX: number;

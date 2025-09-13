@@ -3,7 +3,7 @@
 // Copyright (c) 2007-2025 Daniel-Percy Wimpff <daniel@wimpff.de>, Germany
 // MIT License
 // ------------------------------------------------------------------
-import { MenuLevel } from "./MenuLevel";
+import { MenuLevel } from "./MenuLevel.js";
 
 export interface IMenuItem {
 
