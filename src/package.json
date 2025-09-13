@@ -11,6 +11,9 @@
     "type": "git",
     "url": "git+https://github.com/dpw0001/jspective.git"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "license": "MIT",
   "author": "Daniel-Percy Wimpff <daniel@wimpff.de",
   "type": "es2015",
