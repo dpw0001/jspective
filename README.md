@@ -22,7 +22,7 @@ Starting JSective on a local machine: Since the program is encapsulated as JavaS
 locally opening the file index.html directly from the filesystem will be denied by your webbrowser
 (due to modern CORS security policies in browsers).
 
-Thus, you will need to deploy JSpective on a webserver - be it local or remote - to deliver
+Thus, you will need to deploy JSpective onto a webserver - be it local or remote - to deliver
 the JSpective files for your webbrowser.
 
 ### Deploy from download
