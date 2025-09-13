@@ -25,50 +25,30 @@ locally opening the file index.html directly from the filesystem will be denied 
 Thus, you will need to deploy JSpective onto a webserver - be it local or remote - to deliver
 the JSpective files for your webbrowser.
 
-### Deploy via download
+Here are two alternative methods to deploy JSpective on a webserver:
+
+### Install JSpective via download
+This is the easiest method - and does not require a Github account ...
+
 1. [Download the Zip-file](https://github.com/dpw0001/jspective/archive/refs/heads/main.zip) from Github: 
-2. Unzip and move the content of subdirectory "src" to a webserver into a target directory of your choice.
+2. Unzip and copy the content of subdirectory "src" to a webserver into a target directory of your choice.
 3. Open "index.html" in a webbrowser.
 
-### ... or deploy as npm package
+### ... or install JSpective as npm package
+To fetch npm packages from Github, you unfortunately need a Github account - and Access Token ...
 
-1. Fetch the npm package archive file (dpw0001-jspective-0.4.0.tgz) into a directory of your webserver.
+1. Setup your npm client to use the Githup registry with an Access Token (see Github docs).
+2. Fetch the npm package into a directory of your webserver.
 	```
-	TODO
+	cd my_target_dir
+	npm install @dpw0001/jspective
 	```
-3. Untar the archive (will extract the files into a newly created subdirectory "package/")
+3. Open the file "my_target_dir/node_modules/@dpw0001/jspective/index.html" in a webbrower.
+4. Optional: To cleanup, move the subdirectory "jspective/" with its content directly into "my_target_dir/" and then remove the unnecessary folders.
 	```
-	tar -xzf dpw0001-jspective-0.4.0.tgz
+	mv node_modules/@dpw0001/jspective ./
+	rm -r node_modules
 	```
-4. Optional: Rename directory "package" to a directory name of your choice (e.g. "jspective")
-	```
-	mv package jspective
-	```
-	Hint: You can execute steps 3. and 4. as a single command:
-	```
-	tar --transform='s,package/,jspective/,' -xzf dpw0001-jspective-0.4.0.tgz
-	```
-5. Open the file "jspective/index.html" in a webbrower.
-
-
-### ... or deploy using git
-1. Clone needed parts without immediate checkout:
-	```
-	git clone --no-checkout --depth 1 --sparse https://github.com/dpw0001/jspective.git jspective
-	```
-2. Change into the newly created directory:
-	```
-	cd jspective
-	```
-3. Now checkout "src" directory only:
-	```
-	git sparse-checkout init --no-cone
-	echo "/src/*" > .git/info/sparse-checkout
-	git checkout main
-	```
-4. Copy the content of the "src" directory to a webserver into a target directory of your choice
-
-5. Open file "index.html" in a webbrowser.
 
 ## Dependencies
 As its only library dependency, JSpective currently uses <a target="_blank" href="https://jquery.com">jQuery</a>.
